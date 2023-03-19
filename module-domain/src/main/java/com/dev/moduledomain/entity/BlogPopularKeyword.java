@@ -1,6 +1,7 @@
 package com.dev.moduledomain.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
                 @Index(name = "idx_keyword", columnList = "keyword"),
         }
 )
-public class BlogPopularKeywords extends BaseEntity {
+public class BlogPopularKeyword extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +24,14 @@ public class BlogPopularKeywords extends BaseEntity {
     private String keyword;     // 검색 키워드
     @Column(nullable = false)
     private Long searchCount;   // 검색 횟수
+
+    @Builder
+    public BlogPopularKeyword(String keyword, Long searchCount) {
+        this.keyword = keyword;
+        this.searchCount = searchCount;
+    }
+
+    public void addSearchCount() {
+        this.searchCount += 1;
+    }
 }
