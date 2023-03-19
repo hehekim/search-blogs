@@ -20,7 +20,7 @@ public class BlogPopularKeyword extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String keyword;     // 검색 키워드
     @Column(nullable = false)
     private Long searchCount;   // 검색 횟수
