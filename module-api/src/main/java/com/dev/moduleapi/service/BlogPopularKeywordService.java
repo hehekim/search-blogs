@@ -17,7 +17,7 @@ public class BlogPopularKeywordService {
     public void saveBlogPopularKeyword(String keyword) {
         BlogPopularKeyword popularKeyword = popularKeywordRepository.findByKeyword(keyword);
 
-        if (Objects.nonNull(popularKeyword)) {
+        if (isExistsPopularKeyword(popularKeyword)) {
             popularKeyword.addSearchCount();
         } else {
             popularKeywordRepository.save(BlogPopularKeyword.builder()
@@ -25,6 +25,9 @@ public class BlogPopularKeywordService {
                     .searchCount(SEARCH_COUNT)
                     .build());
         }
+    }
 
+    private boolean isExistsPopularKeyword(BlogPopularKeyword popularKeyword) {
+        return Objects.nonNull(popularKeyword);
     }
 }
