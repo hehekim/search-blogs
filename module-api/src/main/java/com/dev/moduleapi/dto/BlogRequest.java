@@ -14,10 +14,14 @@ public class BlogRequest {
 
     public static BlogRequest of(String query, String sort, Integer page, Integer size) {
         return BlogRequest.builder()
-                .query(query)
+                .query(removeKeywordSpaces(query))
                 .sort(sort)
                 .page(page)
                 .size(size)
                 .build();
+    }
+
+    private static String removeKeywordSpaces(String keyword) {
+        return keyword.replaceAll("\\s+", " ").trim();
     }
 }
