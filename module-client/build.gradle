@@ -5,8 +5,8 @@ plugins {
 }
 
 ext {
-//    set('openFeignVersion', "4.0.1")
-    set('springCloudVersion', "2021.0.4")
+    set('openFeignVersion', "3.1.6")
+    set('springCloudVersion', '2021.0.4')
 
 }
 
@@ -26,10 +26,10 @@ dependencyManagement {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${openFeignVersion}"
-    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${openFeignVersion}"
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
