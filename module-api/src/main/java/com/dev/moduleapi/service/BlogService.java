@@ -1,10 +1,12 @@
 package com.dev.moduleapi.service;
 
-import com.dev.moduleapi.dto.BlogRequest;
+import com.dev.moduleapi.dto.request.BlogRequest;
+import com.dev.moduleapi.dto.response.SearchBlogResponse;
 import com.dev.moduleapi.event.BlogPopularKeywordEvent;
 import com.dev.moduleclient.client.KakaBlogOpenFeign;
 import com.dev.moduleclient.client.NaverBlogOpenFeign;
-import com.dev.moduleclient.dto.BlogResponse;
+import com.dev.moduleclient.dto.response.KakaoBlogResponse;
+import com.dev.moduleclient.dto.response.NaverBlogResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
@@ -32,9 +34,9 @@ public class BlogService {
     private final ApplicationEventPublisher publisher;
 
 
-    public BlogResponse searchBlogsByKeyword(BlogRequest request) {
+    public SearchBlogResponse searchBlogsByKeyword(BlogRequest request) {
         try{
-            BlogResponse response = searchBlogsByKaKao(request);
+            SearchBlogResponse response = searchBlogsByKaKao(request);
 
             publisher.publishEvent(
                     BlogPopularKeywordEvent.from(request.getQuery())
@@ -46,8 +48,8 @@ public class BlogService {
         }
     }
 
-    private BlogResponse searchNaverByNaver(BlogRequest request) {
-        return naverBlogFeign.call(
+    private SearchBlogResponse searchNaverByNaver(BlogRequest request) {
+        NaverBlogResponse response = naverBlogFeign.call(
                 createURI(naverBlogUrl),
                 naverClientId,
                 naverClientSecret,
@@ -56,10 +58,11 @@ public class BlogService {
                 request.getPage(),
                 request.getSize()
         );
+        return SearchBlogResponse.of(response, request);
     }
 
-    private BlogResponse searchBlogsByKaKao(BlogRequest request) {
-        return kakaoBlogFeign.call(
+    private SearchBlogResponse searchBlogsByKaKao(BlogRequest request) {
+        KakaoBlogResponse response = kakaoBlogFeign.call(
                 createURI(kakaoBlogUrl),
                 kakaoClientKey,
                 request.getQuery(),
@@ -67,6 +70,7 @@ public class BlogService {
                 request.getPage(),
                 request.getSize()
         );
+        return SearchBlogResponse.of(response, request);
     }
 
     private URI createURI(String uri) {
