@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(
         scanBasePackages = { "com.dev.moduleapi", "com.dev.moduleclient" }
 )
-@EntityScan("com.dev.moduledomain.entity")
+@EntityScan(basePackages = "com.dev.moduledomain.entity")
 @EnableJpaRepositories(basePackages = "com.dev.moduledomain.repository")
 public class ModuleApiApplication {
 
