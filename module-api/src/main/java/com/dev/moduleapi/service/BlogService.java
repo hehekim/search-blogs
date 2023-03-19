@@ -36,19 +36,14 @@ public class BlogService {
 
     public SearchBlogResponse searchBlogsByKeyword(BlogRequest request) {
         try{
-            SearchBlogResponse response = searchBlogsByKaKao(request);
-
-            publisher.publishEvent(
-                    BlogPopularKeywordEvent.from(request.getQuery())
-            );
-
-            return response;
+            publisher.publishEvent(BlogPopularKeywordEvent.from(request.getQuery()));
+            return searchBlogsByKaKao(request);
         } catch (Exception e) {
-            return searchNaverByNaver(request);
+            return searchNaverByKeyword(request);
         }
     }
 
-    private SearchBlogResponse searchNaverByNaver(BlogRequest request) {
+    private SearchBlogResponse searchNaverByKeyword(BlogRequest request) {
         NaverBlogResponse response = naverBlogFeign.call(
                 createURI(naverBlogUrl),
                 naverClientId,

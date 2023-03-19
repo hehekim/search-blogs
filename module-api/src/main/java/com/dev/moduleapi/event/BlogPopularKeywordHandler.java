@@ -15,7 +15,7 @@ public class BlogPopularKeywordHandler {
     @EventListener
     @Transactional
     @Async
-    public void saveBlogPopularKeyword(BlogPopularKeywordEvent event){
+    public void saveBlogPopularKeyword(BlogPopularKeywordEvent event) {
         popularKeywordService.saveBlogPopularKeyword(event.getKeyword());
     }
 }

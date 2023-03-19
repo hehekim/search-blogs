@@ -10,7 +10,6 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class BlogPopularKeywordService {
-
     public static final long SEARCH_COUNT = 1L;
     private final BlogPopularKeywordRepository popularKeywordRepository;
 
