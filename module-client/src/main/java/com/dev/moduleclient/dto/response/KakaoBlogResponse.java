@@ -1,16 +1,18 @@
-package com.dev.moduleclient.dto;
+package com.dev.moduleclient.dto.response;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-public class KakaoBlogResponse implements BlogResponse {
+@Getter
+@Setter
+public class KakaoBlogResponse {
     List<KaKaoDocuments> documents = new ArrayList<>();
     KaKaoMeta meta;
 
-    @Data
+    @Getter
+    @Setter
     public static class KaKaoDocuments {
         private String title;       // 블로그 글 제목
         private String contents;    // 블로그 글 요약
@@ -20,7 +22,8 @@ public class KakaoBlogResponse implements BlogResponse {
         private String datetime;    // 블로그 글 작성시간, ISO 8601
     }
 
-    @Data
+    @Getter
+    @Setter
     public static class KaKaoMeta {
         private Boolean isEnd;          // 현재 페이지가 마지막 페이지인지 여부
         private Integer pageableCount;  // total_count 중 노출 가능 문서 수

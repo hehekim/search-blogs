@@ -1,6 +1,6 @@
 package com.dev.moduleclient.client;
 
-import com.dev.moduleclient.dto.KakaoBlogResponse;
+import com.dev.moduleclient.dto.response.KakaoBlogResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
