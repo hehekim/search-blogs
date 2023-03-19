@@ -6,6 +6,7 @@ import com.dev.moduleclient.client.KakaBlogOpenFeign;
 import com.dev.moduleclient.client.NaverBlogOpenFeign;
 import com.dev.moduleclient.dto.BlogResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,16 @@ import java.net.URI;
 @Service
 @RequiredArgsConstructor
 public class BlogService {
+    @Value("${kakao.client-key}")
+    private String kakaoClientKey;
+    @Value("${kakao.url.blog}")
+    private String kakaoBlogUrl;
+    @Value("${naver.client-id}")
+    private String naverClientId;
+    @Value("${naver.client-secret}")
+    private String naverClientSecret;
+    @Value("${naver.url.blog}")
+    private String naverBlogUrl;
 
     // TODO 네이버 API 와 같이 사용할 수 있도록 변경
     private final KakaBlogOpenFeign kakaoBlogFeign;
@@ -37,9 +48,9 @@ public class BlogService {
 
     private BlogResponse searchNaverByNaver(BlogRequest request) {
         return naverBlogFeign.call(
-                URI.create("https://openapi.naver.com/v1/search/blog.json"),
-                "luHBgaxTWHCjO3J7etF3",
-                "ghxAsk28Gh",
+                createURI(naverBlogUrl),
+                naverClientId,
+                naverClientSecret,
                 request.getQuery(),
                 request.getSort(),
                 request.getPage(),
@@ -49,12 +60,16 @@ public class BlogService {
 
     private BlogResponse searchBlogsByKaKao(BlogRequest request) {
         return kakaoBlogFeign.call(
-                URI.create("https://dapi.kakao.com/v2/search/blog"),
-                "KakaoAK 296f48e506c53091f5b24d4899867572",
+                createURI(kakaoBlogUrl),
+                kakaoClientKey,
                 request.getQuery(),
                 request.getSort(),
                 request.getPage(),
                 request.getSize()
         );
+    }
+
+    private URI createURI(String uri) {
+        return URI.create(uri);
     }
 }
