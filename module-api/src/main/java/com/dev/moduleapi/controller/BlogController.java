@@ -2,7 +2,7 @@ package com.dev.moduleapi.controller;
 
 import com.dev.moduleapi.dto.BlogRequest;
 import com.dev.moduleapi.service.BlogService;
-import com.dev.moduleclient.dto.KakaoBlogResponse;
+import com.dev.moduleclient.dto.BlogResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class BlogController {
                                       @RequestParam(required = false) Integer page,
                                       @RequestParam(required = false, defaultValue = "10") Integer size) {
 
-        KakaoBlogResponse result = blogService.searchBlogs(BlogRequest.of(query, sort, page, size));
+        BlogResponse result = blogService.searchBlogsByKeyword(BlogRequest.of(query, sort, page, size));
         return ResponseEntity.ok(result);
     }
 

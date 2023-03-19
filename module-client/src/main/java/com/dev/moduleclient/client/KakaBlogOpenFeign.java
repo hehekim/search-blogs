@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.net.URI;
 
 @FeignClient(name = "KakaoOpenFeign", url = "USE_DYNAMIC_URI")
-public interface KakaoOpenFeign {
+public interface KakaBlogOpenFeign {
 
     @GetMapping
     KakaoBlogResponse call(

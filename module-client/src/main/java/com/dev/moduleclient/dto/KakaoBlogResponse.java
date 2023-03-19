@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class KakaoBlogResponse {
+public class KakaoBlogResponse implements BlogResponse {
     List<KaKaoDocuments> documents = new ArrayList<>();
     KaKaoMeta meta;
 
