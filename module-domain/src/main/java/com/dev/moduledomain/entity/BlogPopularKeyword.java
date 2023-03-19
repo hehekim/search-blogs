@@ -25,10 +25,17 @@ public class BlogPopularKeyword extends BaseEntity {
     @Column(nullable = false)
     private Long searchCount;   // 검색 횟수
 
-    @Builder
     public BlogPopularKeyword(String keyword, Long searchCount) {
         this.keyword = keyword;
         this.searchCount = searchCount;
+    }
+
+    public static BlogPopularKeyword from(String keyword) {
+        final long SEARCH_COUNT = 1L;
+        return new BlogPopularKeyword(
+                keyword,
+                SEARCH_COUNT
+        );
     }
 
     public void addSearchCount() {

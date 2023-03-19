@@ -10,7 +10,6 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class BlogPopularKeywordService {
-    public static final long SEARCH_COUNT = 1L;
     private final BlogPopularKeywordRepository popularKeywordRepository;
 
     public void saveBlogPopularKeyword(String keyword) {
@@ -19,10 +18,7 @@ public class BlogPopularKeywordService {
         if (isExistsPopularKeyword(popularKeyword)) {
             popularKeyword.addSearchCount();
         } else {
-            popularKeywordRepository.save(BlogPopularKeyword.builder()
-                    .keyword(keyword)
-                    .searchCount(SEARCH_COUNT)
-                    .build());
+            popularKeywordRepository.save(BlogPopularKeyword.from(keyword));
         }
     }
 
