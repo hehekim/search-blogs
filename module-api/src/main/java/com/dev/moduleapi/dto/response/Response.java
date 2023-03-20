@@ -11,14 +11,14 @@ public class Response<T> {
     private T result;
 
     public static <T> Response<T> success() {
-        return new Response<T>(HttpStatus.OK.name(), null);
+        return new Response<>(HttpStatus.OK.name(), null);
     }
 
     public static <T> Response<T> success(T result) {
-        return new Response<T>(HttpStatus.OK.name(), result);
+        return new Response<>(HttpStatus.OK.name(), result);
     }
 
-    public static Response<Void> fail(String resultCode) {
-        return new Response<Void>(resultCode, null);
+    public static Response<Void> error(String resultCode) {
+        return new Response<>(resultCode, null);
     }
 }
