@@ -36,7 +36,7 @@ public class BlogSearchResponse {
                     .content(response.getContents())
                     .postUrl(response.getUrl())
                     .blogName(response.getBlogname())
-                    .postDate(LocalDate.parse(response.getDatetime(), DateTimeFormatter.ofPattern("yyyyMMdd")))
+                    .postDate(LocalDate.parse(response.getDatetime().substring(0, 10)))
                     .build();
         }
 
