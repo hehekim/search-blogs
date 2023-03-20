@@ -1,9 +1,14 @@
 package com.dev.moduleclient.dto.response;
 
+import com.dev.moduleclient.dto.request.BlogRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -17,6 +22,22 @@ public class NaverBlogResponse extends BlogResponse {
     @JsonProperty("display")
     private Integer display;        // 한 번에 표시할 검색 결과 개수
     private List<NaverItem> items;   // 개별 검색 결과
+
+    public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
+        NaverBlogResponse response = (NaverBlogResponse) data;
+        return BlogSearchResponse.builder()
+                .blogs(response.getItems()
+                        .stream()
+                        .map(NaverBlogResponse.NaverItem::toBlogSearch)
+                        .collect(Collectors.toList()))
+                .page(PageInfo.builder()
+                        .page(response.getStart())
+                        .totalCount(response.getTotal())
+                        .size(request.getSize())
+                        .sort(request.getSort().name())
+                        .build())
+                .build();
+    }
 
     @Getter
     @Setter
@@ -33,5 +54,15 @@ public class NaverBlogResponse extends BlogResponse {
         private String bloggerlink; // 블로그 포스트가 있는 블로그의 주소
         @JsonProperty("postdate")
         private String postdate;    // 블로그 포스트가 작성된 날짜
+
+        public static BlogSearchResponse.BlogSearch toBlogSearch(NaverBlogResponse.NaverItem response) {
+            return BlogSearchResponse.BlogSearch.builder()
+                    .title(response.getTitle())
+                    .content(response.getDescription())
+                    .postUrl(response.getLink())
+                    .blogName(response.getBloggername())
+                    .postDate(LocalDate.parse(response.getPostdate(), DateTimeFormatter.ofPattern("yyyyMMdd")))
+                    .build();
+        }
     }
 }

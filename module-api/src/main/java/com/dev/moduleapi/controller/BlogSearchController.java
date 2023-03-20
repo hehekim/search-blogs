@@ -2,7 +2,7 @@ package com.dev.moduleapi.controller;
 
 import com.dev.moduleapi.dto.request.BlogSearchRequest;
 import com.dev.moduleapi.dto.response.Response;
-import com.dev.moduleapi.dto.response.BlogSearchResponse;
+import com.dev.moduleclient.dto.response.BlogSearchResponse;
 import com.dev.moduleapi.service.BlogSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

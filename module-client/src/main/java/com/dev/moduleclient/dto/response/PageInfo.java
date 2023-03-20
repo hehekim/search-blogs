@@ -1,4 +1,4 @@
-package com.dev.moduleapi.dto.response;
+package com.dev.moduleclient.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

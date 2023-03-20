@@ -1,39 +1,39 @@
 package com.dev.moduleapi.service;
 
 import com.dev.moduleapi.dto.request.BlogSearchRequest;
-import com.dev.moduleapi.dto.response.BlogSearchResponse;
 import com.dev.moduleapi.event.BlogPopularKeywordEvent;
-import com.dev.moduleclient.client.KakaoBlogSearchClient;
-import com.dev.moduleclient.client.NaverBlogSearchClient;
-import com.dev.moduleclient.dto.response.KakaoBlogResponse;
-import com.dev.moduleclient.dto.response.NaverBlogResponse;
+import com.dev.moduleapi.exception.ErrorCode;
+import com.dev.moduleapi.exception.SearchApplicationException;
+import com.dev.moduleclient.client.SearchClientType;
+import com.dev.moduleclient.dto.response.BlogResponse;
+import com.dev.moduleclient.dto.response.BlogSearchResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class BlogSearchService {
     private final ApplicationEventPublisher publisher;
-    private final KakaoBlogSearchClient kakaoClient;
-    private final NaverBlogSearchClient naverClient;
+    private final SearchClientFactory clientFactory;
 
     public BlogSearchResponse searchBlogsByKeyword(BlogSearchRequest request) {
         try{
             publisher.publishEvent(BlogPopularKeywordEvent.from(request.getQuery()));
-            return searchBlogsByKaKao(request);
+            return searchByKeyword(SearchClientType.KAKAO_BLOG_SEARCH, request);
         } catch (Exception e) {
-            return searchNaverByKeyword(request);
+            return searchByKeyword(SearchClientType.NAVER_BLOG_SEARCH, request);
         }
     }
 
-    private BlogSearchResponse searchNaverByKeyword(BlogSearchRequest request) {
-        NaverBlogResponse response = naverClient.call(request);
-        return BlogSearchResponse.of(request, response);
-    }
-
-    private BlogSearchResponse searchBlogsByKaKao(BlogSearchRequest request) {
-        KakaoBlogResponse response = kakaoClient.call(request);
-        return BlogSearchResponse.of(request, response);
+    private BlogSearchResponse searchByKeyword(SearchClientType type, BlogSearchRequest request) {
+        BlogResponse response = clientFactory.getImplementationByType(type).call(request);
+        BlogSearchResponse result = BlogSearchResponse.of(type, request, response);
+        if (Objects.isNull(result)) {
+            throw new SearchApplicationException(ErrorCode.SEARCH_TYPE_NOT_FOUND);
+        }
+        return result;
     }
 }

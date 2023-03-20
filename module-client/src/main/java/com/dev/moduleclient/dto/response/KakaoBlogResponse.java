@@ -1,16 +1,35 @@
 package com.dev.moduleclient.dto.response;
 
+import com.dev.moduleclient.dto.request.BlogRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public class KakaoBlogResponse extends BlogResponse {
     List<KaKaoDocuments> documents = new ArrayList<>();
     KaKaoMeta meta;
+
+    public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
+        KakaoBlogResponse response = (KakaoBlogResponse) data;
+        return BlogSearchResponse.builder()
+                .blogs(response.getDocuments()
+                        .stream()
+                        .map(KaKaoDocuments::toKakaoDocument)
+                        .collect(Collectors.toList()))
+                .page(PageInfo.builder()
+                        .page(response.getMeta().getPageableCount())
+                        .totalCount(response.getMeta().getTotalCount())
+                        .size(request.getSize())
+                        .sort(request.getSort().name())
+                        .build())
+                .build();
+    }
 
     @Getter
     @Setter
@@ -27,6 +46,16 @@ public class KakaoBlogResponse extends BlogResponse {
         private String thumbnail;   // 검색 시스템에서 추출한 대표 미리보기 이미지 URL
         @JsonProperty("datetime")
         private String datetime;    // 블로그 글 작성시간, ISO 8601
+
+        public static BlogSearchResponse.BlogSearch toKakaoDocument(KakaoBlogResponse.KaKaoDocuments response) {
+            return BlogSearchResponse.BlogSearch.builder()
+                    .title(response.getTitle())
+                    .content(response.getContents())
+                    .postUrl(response.getUrl())
+                    .blogName(response.getBlogname())
+                    .postDate(LocalDate.parse(response.getDatetime().substring(0, 10)))
+                    .build();
+        }
     }
 
     @Getter

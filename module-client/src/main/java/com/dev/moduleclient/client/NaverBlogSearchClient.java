@@ -30,6 +30,11 @@ public class NaverBlogSearchClient implements SearchClient<BlogRequest, BlogResp
     private final RestTemplate restTemplate;
 
     @Override
+    public boolean isAvailableType(SearchClientType type) {
+        return type == SearchClientType.NAVER_BLOG_SEARCH;
+    }
+
+    @Override
     public NaverBlogResponse call(BlogRequest request) {
         return restTemplate.exchange(
                 createURI(request),
