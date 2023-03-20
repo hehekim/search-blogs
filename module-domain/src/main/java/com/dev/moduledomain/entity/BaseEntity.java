@@ -1,30 +1,26 @@
 package com.dev.moduledomain.entity;
 
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-    // TODO auditing 고려
-    @Column(name = "create_at", nullable = false)
-    protected LocalDateTime createAt;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    protected LocalDateTime createdAt; // 생성일시
 
-    @Column(name = "update_at")
-    protected LocalDateTime updateAt;
-
-    @PrePersist
-    public void createAt() {
-        this.createAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void updateAt() {
-        this.updateAt = LocalDateTime.now();
-    }
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @LastModifiedDate
+    protected LocalDateTime updatedAt; // 수정일시
 }
