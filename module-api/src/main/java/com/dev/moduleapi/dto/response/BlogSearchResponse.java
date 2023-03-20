@@ -66,7 +66,7 @@ public class BlogSearchResponse {
                 .build();
     }
 
-    public static BlogSearchResponse of(NaverBlogResponse response, BlogSearchRequest request) {
+    public static BlogSearchResponse of(BlogSearchRequest request, NaverBlogResponse response) {
         return BlogSearchResponse.builder()
                 .blogs(response.getItems()
                         .stream()

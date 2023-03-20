@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum SearchBlogSort {
+public enum BlogSearchSort {
     ACCURACY("accuracy", "sim", "정확도순"),
     RECENCY("recency", "date", "최신순");
 
