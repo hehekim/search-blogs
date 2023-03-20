@@ -1,7 +1,7 @@
 package com.dev.moduleapi.dto.response;
 
 
-import com.dev.moduleapi.dto.request.BlogRequest;
+import com.dev.moduleapi.dto.request.BlogSearchRequest;
 import com.dev.moduleclient.dto.response.KakaoBlogResponse;
 import com.dev.moduleclient.dto.response.NaverBlogResponse;
 import lombok.*;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SearchBlogResponse {
+public class BlogSearchResponse {
 
     List<SearchBlog> blogs;
     private PageInfo page;
@@ -51,8 +51,8 @@ public class SearchBlogResponse {
         }
     }
 
-    public static SearchBlogResponse of(KakaoBlogResponse response, BlogRequest request) {
-        return SearchBlogResponse.builder()
+    public static BlogSearchResponse of(KakaoBlogResponse response, BlogSearchRequest request) {
+        return BlogSearchResponse.builder()
                 .blogs(response.getDocuments()
                         .stream()
                         .map(SearchBlog::from)
@@ -61,13 +61,13 @@ public class SearchBlogResponse {
                         .page(response.getMeta().getPageableCount())
                         .totalCount(response.getMeta().getTotalCount())
                         .size(request.getSize())
-                        .sort(request.getSort())
+                        .sort(request.getSort().name())
                         .build())
                 .build();
     }
 
-    public static SearchBlogResponse of(NaverBlogResponse response, BlogRequest request) {
-        return SearchBlogResponse.builder()
+    public static BlogSearchResponse of(NaverBlogResponse response, BlogSearchRequest request) {
+        return BlogSearchResponse.builder()
                 .blogs(response.getItems()
                         .stream()
                         .map(SearchBlog::from)
@@ -76,7 +76,7 @@ public class SearchBlogResponse {
                         .page(response.getStart())
                         .totalCount(response.getTotal())
                         .size(request.getSize())
-                        .sort(request.getSort())
+                        .sort(request.getSort().name())
                         .build())
                 .build();
     }

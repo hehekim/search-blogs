@@ -1,7 +1,7 @@
 package com.dev.moduleapi.service;
 
-import com.dev.moduleapi.dto.request.BlogRequest;
-import com.dev.moduleapi.dto.response.SearchBlogResponse;
+import com.dev.moduleapi.dto.request.BlogSearchRequest;
+import com.dev.moduleapi.dto.response.BlogSearchResponse;
 import com.dev.moduleapi.event.BlogPopularKeywordEvent;
 import com.dev.moduleclient.client.KakaBlogOpenFeign;
 import com.dev.moduleclient.client.NaverBlogOpenFeign;
@@ -16,7 +16,7 @@ import java.net.URI;
 
 @Service
 @RequiredArgsConstructor
-public class BlogService {
+public class BlogSearchService {
     @Value("${kakao.client-key}")
     private String kakaoClientKey;
     @Value("${kakao.url.blog}")
@@ -34,7 +34,7 @@ public class BlogService {
     private final ApplicationEventPublisher publisher;
 
 
-    public SearchBlogResponse searchBlogsByKeyword(BlogRequest request) {
+    public BlogSearchResponse searchBlogsByKeyword(BlogSearchRequest request) {
         try{
             publisher.publishEvent(BlogPopularKeywordEvent.from(request.getQuery()));
             return searchBlogsByKaKao(request);
@@ -43,29 +43,29 @@ public class BlogService {
         }
     }
 
-    private SearchBlogResponse searchNaverByKeyword(BlogRequest request) {
+    private BlogSearchResponse searchNaverByKeyword(BlogSearchRequest request) {
         NaverBlogResponse response = naverBlogFeign.call(
                 createURI(naverBlogUrl),
                 naverClientId,
                 naverClientSecret,
                 request.getQuery(),
-                request.getSort(),
+                request.getSort().getNaverSort(),
                 request.getPage(),
                 request.getSize()
         );
-        return SearchBlogResponse.of(response, request);
+        return BlogSearchResponse.of(response, request);
     }
 
-    private SearchBlogResponse searchBlogsByKaKao(BlogRequest request) {
+    private BlogSearchResponse searchBlogsByKaKao(BlogSearchRequest request) {
         KakaoBlogResponse response = kakaoBlogFeign.call(
                 createURI(kakaoBlogUrl),
                 kakaoClientKey,
                 request.getQuery(),
-                request.getSort(),
+                request.getSort().getKakaoSort(),
                 request.getPage(),
                 request.getSize()
         );
-        return SearchBlogResponse.of(response, request);
+        return BlogSearchResponse.of(response, request);
     }
 
     private URI createURI(String uri) {
