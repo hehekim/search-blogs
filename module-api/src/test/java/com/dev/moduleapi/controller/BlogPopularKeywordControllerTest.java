@@ -1,7 +1,7 @@
 package com.dev.moduleapi.controller;
 
 import com.dev.moduleapi.dto.BlogPopularKeywordResponseFixture;
-import com.dev.moduleapi.exception.BlogApplicationException;
+import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduleapi.service.BlogPopularKeywordService;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +44,7 @@ class BlogPopularKeywordControllerTest {
     @Test
     void findTenPopularKeywordsReturnNoData() throws Exception {
         // Given
-        doThrow(new BlogApplicationException(ErrorCode.POPULAR_KEYWORD_NOT_FOUND))
+        doThrow(new SearchApplicationException(ErrorCode.POPULAR_KEYWORD_NOT_FOUND))
                 .when(popularKeywordService).getTenPopularKeywords();
 
         // When & Then

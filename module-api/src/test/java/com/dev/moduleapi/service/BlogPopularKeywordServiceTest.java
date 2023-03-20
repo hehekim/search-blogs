@@ -1,7 +1,7 @@
 package com.dev.moduleapi.service;
 
 import com.dev.moduleapi.dto.BlogPopularKeywordEntityFixture;
-import com.dev.moduleapi.exception.BlogApplicationException;
+import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduledomain.repository.BlogPopularKeywordRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +42,7 @@ class BlogPopularKeywordServiceTest {
         when(blogPopularKeywordRepository.findTop10ByOrderBySearchCountDesc()).thenReturn(null);
 
         // When & Then
-        BlogApplicationException exception = assertThrows(BlogApplicationException.class, () -> popularKeywordService.getTenPopularKeywords());
+        SearchApplicationException exception = assertThrows(SearchApplicationException.class, () -> popularKeywordService.getTenPopularKeywords());
         assertEquals(ErrorCode.POPULAR_KEYWORD_NOT_FOUND, exception.getErrorCode());
     }
 }

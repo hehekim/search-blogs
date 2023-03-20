@@ -15,8 +15,8 @@ import java.io.StringWriter;
 @Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
-    @ExceptionHandler(BlogApplicationException.class)
-    public ResponseEntity<?> handleBlogApplicationException(BlogApplicationException e) {
+    @ExceptionHandler(SearchApplicationException.class)
+    public ResponseEntity<?> handleBlogApplicationException(SearchApplicationException e) {
         log.error("{}, errorCode = {}", e.getMessage(), e.getErrorCode());
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().name()));

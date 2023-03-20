@@ -1,7 +1,7 @@
 package com.dev.moduleapi.service;
 
 import com.dev.moduleapi.dto.response.BlogPopularKeywordResponse;
-import com.dev.moduleapi.exception.BlogApplicationException;
+import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduledomain.entity.BlogPopularKeyword;
 import com.dev.moduledomain.repository.BlogPopularKeywordRepository;
@@ -36,7 +36,7 @@ public class BlogPopularKeywordService {
         List<BlogPopularKeyword> popularKeywords = popularKeywordRepository.findTop10ByOrderBySearchCountDesc();
 
         if (isExistsPopularKeywords(popularKeywords)) {
-            throw new BlogApplicationException(ErrorCode.POPULAR_KEYWORD_NOT_FOUND);
+            throw new SearchApplicationException(ErrorCode.POPULAR_KEYWORD_NOT_FOUND);
         }
 
         return popularKeywords.stream()
