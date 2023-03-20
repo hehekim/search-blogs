@@ -1,5 +1,7 @@
 package com.dev.moduleapi.dto.request;
 
+import com.dev.moduleclient.dto.request.BlogRequest;
+import com.dev.moduleclient.dto.request.SearchBlogSort;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -8,7 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Builder
-public class BlogSearchRequest {
+public class BlogSearchRequest extends BlogRequest {
     @NotBlank(message = "필수값 query 값이 없습니다.")
     private String query;           // 검색을 원하는 질의어
     private SearchBlogSort sort;    // 결과 문서 정렬 방식

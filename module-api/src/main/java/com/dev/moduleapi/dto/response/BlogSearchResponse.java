@@ -51,7 +51,7 @@ public class BlogSearchResponse {
         }
     }
 
-    public static BlogSearchResponse of(KakaoBlogResponse response, BlogSearchRequest request) {
+    public static BlogSearchResponse of(BlogSearchRequest request, KakaoBlogResponse response) {
         return BlogSearchResponse.builder()
                 .blogs(response.getDocuments()
                         .stream()

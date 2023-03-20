@@ -8,18 +8,24 @@ import java.util.List;
 
 @Getter
 @Setter
-public class KakaoBlogResponse {
+public class KakaoBlogResponse extends BlogResponse {
     List<KaKaoDocuments> documents = new ArrayList<>();
     KaKaoMeta meta;
 
     @Getter
     @Setter
     public static class KaKaoDocuments {
+        @JsonProperty("title")
         private String title;       // 블로그 글 제목
+        @JsonProperty("contents")
         private String contents;    // 블로그 글 요약
+        @JsonProperty("url")
         private String url;         // 블로그 글 URL
+        @JsonProperty("blogname")
         private String blogname;    // 블로그의 이름
+        @JsonProperty("thumbnail")
         private String thumbnail;   // 검색 시스템에서 추출한 대표 미리보기 이미지 URL
+        @JsonProperty("datetime")
         private String datetime;    // 블로그 글 작성시간, ISO 8601
     }
 
