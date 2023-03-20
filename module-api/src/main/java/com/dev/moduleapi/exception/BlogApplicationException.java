@@ -19,7 +19,7 @@ public class BlogApplicationException extends RuntimeException {
         if (message == null) {
             return errorCode.getMessage();
         } else {
-            return String.format("%s. %s", errorCode.getMessage(), message);
+            return String.format("%s.", errorCode.getMessage());
         }
     }
 }

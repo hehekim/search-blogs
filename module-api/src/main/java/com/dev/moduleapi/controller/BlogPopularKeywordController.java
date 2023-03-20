@@ -2,23 +2,22 @@ package com.dev.moduleapi.controller;
 
 import com.dev.moduleapi.dto.response.BlogPopularKeywordResponse;
 import com.dev.moduleapi.dto.response.Response;
-import com.dev.moduledomain.repository.BlogPopularKeywordRepository;
+import com.dev.moduleapi.service.BlogPopularKeywordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/popular-keywords")
 public class BlogPopularKeywordController {
-    private final BlogPopularKeywordRepository popularKeywordRepository;
+    private final BlogPopularKeywordService popularKeywordService;
 
-    @GetMapping("/popular-keywords")
+    @GetMapping
     public Response<List<BlogPopularKeywordResponse>> getTenPopularKeywords() {
-        return Response.success(popularKeywordRepository.findTop10ByOrderBySearchCountDesc().stream()
-                .map(BlogPopularKeywordResponse::from)
-                .collect(Collectors.toList()));
+        return Response.success(popularKeywordService.getTenPopularKeywords());
     }
 }
