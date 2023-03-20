@@ -36,7 +36,7 @@ public class BlogPopularKeywordService {
         List<BlogPopularKeyword> popularKeywords = popularKeywordRepository.findTop10ByOrderBySearchCountDesc();
 
         if (isExistsPopularKeywords(popularKeywords)) {
-            throw new BlogApplicationException(ErrorCode.NOT_FOUND_POPULAR_KEYWORD);
+            throw new BlogApplicationException(ErrorCode.POPULAR_KEYWORD_NOT_FOUND);
         }
 
         return popularKeywords.stream()
