@@ -1,0 +1,9 @@
+kakao:
+  client-key: KakaoAK 296f48e506c53091f5b24d4899867572
+  url:
+    blog: https://dapi.kakao.com/v2/search/blog
+naver:
+  client-id: luHBgaxTWHCjO3J7etF3
+  client-secret: ghxAsk28Gh
+  url:
+    blog: https://openapi.naver.com/v1/search/blog.json
