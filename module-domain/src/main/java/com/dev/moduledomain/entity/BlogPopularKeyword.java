@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "blog_popular_keyword",
         indexes = {
                 @Index(name = "idx_keyword", columnList = "keyword"),
+                @Index(name = "idx_search_count", columnList = "searchCount")
         }
 )
 public class BlogPopularKeyword extends BaseEntity {
