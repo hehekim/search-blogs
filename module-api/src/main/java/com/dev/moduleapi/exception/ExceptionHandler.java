@@ -7,7 +7,7 @@ import java.util.Objects;
 public class ExceptionHandler {
 
     public static void checkException(CommonResponse response, ErrorCode errorCode) {
-        if (Objects.isNull(response.getResult())) {
+        if (Objects.isNull(response) || Objects.isNull(response.getResult())) {
             throw new SearchApplicationException(errorCode);
         }
     }
