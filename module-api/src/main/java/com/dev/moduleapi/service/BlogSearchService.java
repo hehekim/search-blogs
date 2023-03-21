@@ -4,6 +4,7 @@ import com.dev.moduleapi.dto.request.BlogSearchRequest;
 import com.dev.moduleapi.event.BlogPopularKeywordEvent;
 import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduleapi.exception.SearchApplicationException;
+import com.dev.moduleclient.client.SearchClientFactory;
 import com.dev.moduleclient.client.SearchClientType;
 import com.dev.moduleclient.dto.response.BlogResponse;
 import com.dev.moduleclient.dto.response.BlogSearchResponse;
@@ -30,7 +31,9 @@ public class BlogSearchService {
     }
 
     private BlogSearchResponse searchByKeyword(SearchClientType type, BlogSearchRequest request) {
-        BlogResponse response = clientFactory.getImplementationByType(type).call(request);
+        BlogResponse response = clientFactory.getImplementationByType(type)
+                .getResult()
+                .call(request);
         BlogSearchResponse result = BlogSearchResponse.of(type, request, response);
         isExistsBlogSearchResponse(result);
         return result;
