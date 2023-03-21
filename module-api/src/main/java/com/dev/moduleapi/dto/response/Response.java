@@ -10,15 +10,11 @@ public class Response<T> {
     private String resultCode;
     private T result;
 
-    public static <T> Response<T> success() {
-        return new Response<>(HttpStatus.OK.name(), null);
-    }
-
     public static <T> Response<T> success(T result) {
         return new Response<>(HttpStatus.OK.name(), result);
     }
 
-    public static Response<Void> error(String resultCode) {
+    public static Response<Void> failed(String resultCode) {
         return new Response<>(resultCode, null);
     }
 }

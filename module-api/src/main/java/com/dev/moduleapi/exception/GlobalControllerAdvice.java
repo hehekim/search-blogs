@@ -19,21 +19,21 @@ public class GlobalControllerAdvice {
     private ResponseEntity<?> handleBlogApplicationException(SearchApplicationException e) {
         log.error("{}, errorCode = {}", e.getMessage(), e.getErrorCode());
         return ResponseEntity.status(e.getErrorCode().getStatus())
-                .body(Response.error(e.getErrorCode().name()));
+                .body(Response.failed(e.getErrorCode().name()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     private ResponseEntity<?> handleMethodArgumentValidException(MethodArgumentNotValidException e) {
         log.error("Invalid data value 'object' or 'parameter' when API call.", e);
         return ResponseEntity.status(ErrorCode.INVALID_PARAMETER.getStatus())
-                .body(Response.error(e.getBindingResult().getAllErrors().get(0).getDefaultMessage()));
+                .body(Response.failed(e.getBindingResult().getAllErrors().get(0).getDefaultMessage()));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     private ResponseEntity<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         log.error(String.format("'%s' should be a valid '%s' and '%s' isn't", e.getName(), e.getRequiredType(), e.getValue()));
         return ResponseEntity.status(ErrorCode.INVALID_PARAMETER.getStatus())
-                .body(Response.error(String.format("'%s' should be a valid '%s' and '%s' isn't",
+                .body(Response.failed(String.format("'%s' should be a valid '%s' and '%s' isn't",
                         e.getName(), e.getRequiredType(), e.getValue())));
     }
 
@@ -41,7 +41,7 @@ public class GlobalControllerAdvice {
     private ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("Exceptions due to missing request data, etc.", e);
         return ResponseEntity.status(ErrorCode.REQUEST_BODY_MISSING_ERROR.getStatus())
-                .body(Response.error(ErrorCode.REQUEST_BODY_MISSING_ERROR.getMessage()));
+                .body(Response.failed(ErrorCode.REQUEST_BODY_MISSING_ERROR.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
@@ -50,6 +50,6 @@ public class GlobalControllerAdvice {
         e.printStackTrace(new PrintWriter(writer));
         log.error("Internal Server Error. {}", writer);
         return ResponseEntity.status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
-                .body(Response.error(ErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
+                .body(Response.failed(ErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
     }
 }
