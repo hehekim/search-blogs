@@ -2,14 +2,17 @@ package com.dev.moduleclient.client;
 
 import com.dev.moduleclient.dto.request.BlogRequest;
 import com.dev.moduleclient.dto.response.BlogResponse;
+import com.dev.moduleclient.dto.response.ClientResponse;
 import com.dev.moduleclient.dto.response.KakaoBlogResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -35,13 +38,24 @@ public class KakaoBlogSearchClient implements SearchClient<BlogRequest, BlogResp
     }
 
     @Override
-    public KakaoBlogResponse call(BlogRequest request) {
-        return restTemplate.exchange(
-                createURI(request),
-                HttpMethod.GET,
-                setHttpEntity(),
-                KakaoBlogResponse.class
-        ).getBody();
+    public ClientResponse<BlogResponse> call(BlogRequest request) {
+        try {
+            log.info("Request to Kakao client. request data = {}", request.toString());
+            return ClientResponse.success(
+                    restTemplate.exchange(
+                            createURI(request),
+                            HttpMethod.GET,
+                            setHttpEntity(),
+                            KakaoBlogResponse.class
+                    ).getBody()
+            );
+        } catch (HttpClientErrorException e) {
+            log.error("[HttpClientErrorException] Exception occurred in KakaoClient. keyword={}, status={}, cause={}", request.getQuery(), e.getStatusCode(), e.getResponseBodyAsString());
+            return ClientResponse.failed(e);
+        } catch (Exception e) {
+            log.error("[Exception] Exception occurred in KakaoClient. keyword={}, status={}, cause={}", request.getQuery(), NestedExceptionUtils.getMostSpecificCause(e).getCause(), NestedExceptionUtils.getMostSpecificCause(e));
+            return ClientResponse.failed(e);
+        }
     }
 
     @Override
