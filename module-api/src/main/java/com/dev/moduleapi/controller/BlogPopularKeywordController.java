@@ -2,7 +2,7 @@ package com.dev.moduleapi.controller;
 
 import com.dev.moduleapi.dto.response.BlogPopularKeywordResponse;
 import com.dev.moduleapi.dto.response.Response;
-import com.dev.moduleapi.service.BlogPopularKeywordService;
+import com.dev.moduleapi.service.BlogPopularKeywordApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/popular-keywords")
 public class BlogPopularKeywordController {
-    private final BlogPopularKeywordService popularKeywordService;
+    private final BlogPopularKeywordApiService popularKeywordService;
 
     @GetMapping
     public Response<List<BlogPopularKeywordResponse>> getTenPopularKeywords() {

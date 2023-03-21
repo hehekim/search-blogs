@@ -5,7 +5,7 @@ import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduledomain.entity.BlogPopularKeyword;
 import com.dev.moduledomain.repository.BlogPopularKeywordRepository;
-import com.dev.moduledomain.util.JpaUtils;
+import com.dev.moduledomain.service.PopularKeywordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,15 +18,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class BlogPopularKeywordService {
+public class BlogPopularKeywordApiService {
     private final BlogPopularKeywordRepository popularKeywordRepository;
+    private final PopularKeywordService popularKeywordService;
 
     public void saveBlogPopularKeyword(String keyword) {
         try {
-            BlogPopularKeyword popularKeyword =  popularKeywordRepository.findByKeywordWithLock(keyword)
-                    .orElseGet(() -> BlogPopularKeyword.from(keyword));
-            popularKeyword.addSearchCount();
-            JpaUtils.SaveIfIdIsNull(popularKeyword.getId(), popularKeywordRepository, popularKeyword);
+            popularKeywordService.addPopularKeywordToOneCount(keyword);
         } catch (DataIntegrityViolationException e) {
             log.error("Occurred by storing duplicate values in a database. request keyword = '{}'", keyword);
         }

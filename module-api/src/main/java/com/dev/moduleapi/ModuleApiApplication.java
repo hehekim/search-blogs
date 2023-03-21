@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
-        scanBasePackages = { "com.dev.moduleapi", "com.dev.moduleclient" }
+        scanBasePackages = { "com.dev.moduleapi", "com.dev.moduleclient", "com.dev.moduledomain" }
 )
 public class ModuleApiApplication {
     public static void main(String[] args) {

@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 class BlogPopularKeywordServiceTest {
 
     @InjectMocks
-    BlogPopularKeywordService popularKeywordService;
+    BlogPopularKeywordApiService popularKeywordService;
 
     @Mock
     BlogPopularKeywordRepository blogPopularKeywordRepository;
