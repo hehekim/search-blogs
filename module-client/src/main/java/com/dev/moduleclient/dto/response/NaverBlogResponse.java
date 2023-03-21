@@ -32,6 +32,7 @@ public class NaverBlogResponse extends BlogResponse {
                         .collect(Collectors.toList()))
                 .page(PageInfo.builder()
                         .page(response.getStart())
+                        .totalPage(PageInfo.getTotalPage(response.getTotal(), request.getSize()))
                         .totalCount(response.getTotal())
                         .size(request.getSize())
                         .sort(request.getSort().name())
