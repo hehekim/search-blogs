@@ -44,7 +44,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     private ResponseEntity<?> handleException(Exception e) {
-        log.error("[Exception] Exception has occurred. status={}, cause={}", NestedExceptionUtils.getMostSpecificCause(e).getCause(), e.getCause().getMessage());
+        log.error("[Exception] Exception has occurred. status={}, cause={}", NestedExceptionUtils.getMostSpecificCause(e).getCause(), e.getMessage());
         return ResponseEntity.status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
                 .body(Response.failed(ErrorCode.INTERNAL_SERVER_ERROR.getMessage()));
     }

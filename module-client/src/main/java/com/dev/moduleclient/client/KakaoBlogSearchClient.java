@@ -53,7 +53,7 @@ public class KakaoBlogSearchClient implements SearchClient<BlogRequest, BlogResp
             log.error("[HttpClientErrorException] Exception occurred in KakaoClient. keyword={}, status={}, cause={}", request.getQuery(), e.getStatusCode(), e.getResponseBodyAsString());
             return ClientResponse.failed(e);
         } catch (Exception e) {
-            log.error("[Exception] Exception occurred in KakaoClient. keyword={}, status={}, cause={}", request.getQuery(), NestedExceptionUtils.getMostSpecificCause(e).getCause(), e.getCause().getMessage());
+            log.error("[Exception] Exception occurred in KakaoClient. keyword={}, status={}, cause={}", request.getQuery(), NestedExceptionUtils.getMostSpecificCause(e).getCause(), e.getMessage());
             return ClientResponse.failed(e);
         }
     }
