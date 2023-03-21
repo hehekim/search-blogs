@@ -19,7 +19,7 @@ public class BlogPopularKeywordService {
     private final BlogPopularKeywordRepository popularKeywordRepository;
 
     public void saveBlogPopularKeyword(String keyword) {
-        BlogPopularKeyword popularKeyword = popularKeywordRepository.findByKeyword(keyword);
+        BlogPopularKeyword popularKeyword = popularKeywordRepository.findByKeywordWithLock(keyword);
 
         if (isExistsPopularKeyword(popularKeyword)) {
             popularKeyword.addSearchCount();
