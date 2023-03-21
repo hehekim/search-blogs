@@ -19,6 +19,10 @@ import java.net.URI;
 @RequiredArgsConstructor
 @Component
 public class KakaoBlogSearchClient implements SearchClient<BlogRequest, BlogResponse> {
+    public static final String QUERY = "query";
+    public static final String SORT = "sort";
+    public static final String PAGE = "page";
+    public static final String SIZE = "size";
     @Value("${kakao.client-key}")
     private String kakaoClientKey;
     @Value("${kakao.url.blog}")
@@ -50,10 +54,10 @@ public class KakaoBlogSearchClient implements SearchClient<BlogRequest, BlogResp
     @Override
     public URI createURI(BlogRequest request) {
         return UriComponentsBuilder.fromHttpUrl(kakaoBlogUrl)
-                .queryParam("query", request.getQuery())
-                .queryParam("sort", request.getSort().getKakaoSort())
-                .queryParam("page", request.getPage())
-                .queryParam("size", request.getSize())
+                .queryParam(QUERY, request.getQuery())
+                .queryParam(SORT, request.getSort().getKakaoSort())
+                .queryParam(PAGE, request.getPage())
+                .queryParam(SIZE, request.getSize())
                 .build()
                 .encode()
                 .toUri();

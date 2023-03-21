@@ -21,6 +21,10 @@ import java.net.URI;
 public class NaverBlogSearchClient implements SearchClient<BlogRequest, BlogResponse> {
     public static final String X_NAVER_CLIENT_ID = "X-Naver-Client-Id";
     public static final String X_NAVER_CLIENT_SECRET = "X-Naver-Client-Secret";
+    public static final String QUERY = "query";
+    public static final String SORT = "sort";
+    public static final String PAGE = "start";
+    public static final String SIZE = "display";
     @Value("${naver.client-id}")
     private String naverClientId;
     @Value("${naver.client-secret}")
@@ -55,10 +59,10 @@ public class NaverBlogSearchClient implements SearchClient<BlogRequest, BlogResp
     @Override
     public URI createURI(BlogRequest request) {
         return UriComponentsBuilder.fromHttpUrl(naverBlogUrl)
-                .queryParam("query", request.getQuery())
-                .queryParam("sort", request.getSort().getNaverSort())
-                .queryParam("page", request.getPage())
-                .queryParam("size", request.getSize())
+                .queryParam(QUERY, request.getQuery())
+                .queryParam(SORT, request.getSort().getNaverSort())
+                .queryParam(PAGE, request.getPage())
+                .queryParam(SIZE, request.getSize())
                 .build()
                 .encode()
                 .toUri();
