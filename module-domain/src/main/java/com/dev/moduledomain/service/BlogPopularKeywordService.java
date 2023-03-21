@@ -40,7 +40,7 @@ public class BlogPopularKeywordService implements PopularKeywordService {
             popularKeyword.addSearchCount();
             JpaUtils.SaveIfIdIsNull(popularKeyword.getId(), popularKeywordRepository, popularKeyword);
         } catch (DataIntegrityViolationException e) {
-            log.error("Occurred by storing duplicate values in a database. request keyword = '{}'", keyword);
+            log.error("[DataIntegrityViolationException] Occurred by storing duplicate values in a database. request keyword = '{}'", keyword);
         }
     }
 
