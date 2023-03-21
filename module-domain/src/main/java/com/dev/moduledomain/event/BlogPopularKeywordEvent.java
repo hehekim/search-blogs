@@ -1,4 +1,4 @@
-package com.dev.moduleapi.event;
+package com.dev.moduledomain.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

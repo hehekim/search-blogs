@@ -1,6 +1,6 @@
-package com.dev.moduleapi.event;
+package com.dev.moduledomain.event;
 
-import com.dev.moduleapi.service.BlogPopularKeywordApiService;
+import com.dev.moduledomain.service.PopularKeywordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class BlogPopularKeywordHandler {
-    private final BlogPopularKeywordApiService popularKeywordService;
+    private final PopularKeywordService popularKeywordService;
 
     @EventListener
     @Transactional
     @Async
     public void saveBlogPopularKeyword(BlogPopularKeywordEvent event) {
-        popularKeywordService.saveBlogPopularKeyword(event.getKeyword());
+        popularKeywordService.addPopularKeywordToOneCount(event.getKeyword());
     }
 }

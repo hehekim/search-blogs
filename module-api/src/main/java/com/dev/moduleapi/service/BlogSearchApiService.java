@@ -1,27 +1,26 @@
 package com.dev.moduleapi.service;
 
 import com.dev.moduleapi.dto.request.BlogSearchRequest;
-import com.dev.moduleapi.event.BlogPopularKeywordEvent;
 import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleclient.client.SearchClientFactory;
 import com.dev.moduleclient.client.SearchClientType;
 import com.dev.moduleclient.dto.response.BlogResponse;
 import com.dev.moduleclient.dto.response.BlogSearchResponse;
+import com.dev.moduledomain.service.PopularKeywordEventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class BlogSearchService {
-    private final ApplicationEventPublisher publisher;
+public class BlogSearchApiService {
+    private final PopularKeywordEventService popularKeywordEventService;
     private final SearchClientFactory clientFactory;
 
     public BlogSearchResponse searchBlogsByKeyword(BlogSearchRequest request) {
-        publisher.publishEvent(BlogPopularKeywordEvent.from(request.getQuery()));
+        popularKeywordEventService.saveBlogPopularKeyword(request.getQuery());
 
         try{
             return searchByKeyword(SearchClientType.KAKAO_BLOG_SEARCH, request);

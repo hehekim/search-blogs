@@ -6,24 +6,20 @@ import com.dev.moduledomain.entity.BlogPopularKeyword;
 import com.dev.moduledomain.repository.BlogPopularKeywordRepository;
 import com.dev.moduledomain.util.JpaUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Slf4j
+@Service
 @RequiredArgsConstructor
 public class BlogPopularKeywordService implements PopularKeywordService {
     private final BlogPopularKeywordRepository popularKeywordRepository;
-    @Override
-    public void addPopularKeywordToOneCount(String keyword) {
-        BlogPopularKeyword popularKeyword =  popularKeywordRepository.findByKeywordWithLock(keyword)
-                .orElseGet(() -> BlogPopularKeyword.from(keyword));
-        popularKeyword.addSearchCount();
-        JpaUtils.SaveIfIdIsNull(popularKeyword.getId(), popularKeywordRepository, popularKeyword);
-    }
 
     @Override
     public DomainResponse<List<BlogPopularKeywordResponse>> getTenPopularKeywords() {
@@ -31,10 +27,21 @@ public class BlogPopularKeywordService implements PopularKeywordService {
         if (isExistsPopularKeywords(popularKeywords)) {
             return DomainResponse.failed(new EntityNotFoundException());
         }
-
         return DomainResponse.success(popularKeywords.stream()
                 .map(BlogPopularKeywordResponse::from)
                 .collect(Collectors.toList()));
+    }
+
+    @Override
+    public void addPopularKeywordToOneCount(String keyword) {
+        try {
+            BlogPopularKeyword popularKeyword =  popularKeywordRepository.findByKeywordWithLock(keyword)
+                    .orElseGet(() -> BlogPopularKeyword.from(keyword));
+            popularKeyword.addSearchCount();
+            JpaUtils.SaveIfIdIsNull(popularKeyword.getId(), popularKeywordRepository, popularKeyword);
+        } catch (DataIntegrityViolationException e) {
+            log.error("Occurred by storing duplicate values in a database. request keyword = '{}'", keyword);
+        }
     }
 
     private boolean isExistsPopularKeywords(List<BlogPopularKeyword> popularKeywords) {
