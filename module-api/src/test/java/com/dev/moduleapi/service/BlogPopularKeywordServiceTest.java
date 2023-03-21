@@ -12,7 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 @DisplayName("인기키워드 서비스 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -25,24 +26,26 @@ class BlogPopularKeywordServiceTest {
     PopularKeywordService popularKeywordService;
 
     @Test
-    @DisplayName("인기키워드 상위 10개 조회 요청 성공")
+    @DisplayName("인기키워드 상위 10개 조회 요청 - 성공")
     void findTop10ReturnSuccess() {
         // Given
-        when(popularKeywordService.getTenPopularKeywords())
-                .thenReturn((BlogPopularKeywordEntityFixture.createTop10Keywords()));
+        given(popularKeywordService.getTenPopularKeywords())
+                .willReturn((BlogPopularKeywordEntityFixture.createTop10Keywords()));
         // When & Then
         assertDoesNotThrow(() -> blogPopularKeywordApiService.getTenPopularKeywords());
+        then(popularKeywordService).should().getTenPopularKeywords();
     }
 
     @Test
-    @DisplayName("인기키워드 상위 10개 조회 시 값이 없을 때 에러발생")
+    @DisplayName("인기키워드 상위 10개 조회 시 값이 없을 때 - 에러발생")
     void findTop10ReturnNotFoundError() {
          // Given
-        when(popularKeywordService.getTenPopularKeywords()).thenReturn(null);
+        given(popularKeywordService.getTenPopularKeywords()).willReturn(null);
 
         // When & Then
         SearchApplicationException exception =
                 assertThrows(SearchApplicationException.class, () -> blogPopularKeywordApiService.getTenPopularKeywords());
         assertEquals(ErrorCode.POPULAR_KEYWORD_NOT_FOUND, exception.getErrorCode());
+        then(popularKeywordService).should().getTenPopularKeywords();
     }
 }

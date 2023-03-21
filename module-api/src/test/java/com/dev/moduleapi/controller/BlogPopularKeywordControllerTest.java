@@ -26,7 +26,7 @@ class BlogPopularKeywordControllerTest {
     @MockBean
     private BlogPopularKeywordApiService popularKeywordService;
 
-    @DisplayName("[GET] 인기키워드(검색 횟수가 많은 기준) 상위 10개 조회")
+    @DisplayName("[GET] 인기키워드(검색 횟수가 많은 기준) 상위 10개 조회 - 성공")
     @Test
     void getTenPopularKeywords() throws Exception {
         // Given
@@ -41,11 +41,12 @@ class BlogPopularKeywordControllerTest {
         then(popularKeywordService).should().getTenPopularKeywords();
     }
 
-    @DisplayName("[GET] 인기키워드(검색 횟수가 많은 기준) 상위 10개 조회 시 조회 데이터가 없을 때 에러발생")
+    @DisplayName("[GET] 인기키워드(검색 횟수가 많은 기준) 상위 10개 조회 시 조회 데이터가 없을 때 - 에러발생")
     @Test
     void findTenPopularKeywordsReturnNoData() throws Exception {
         // Given
-        given(popularKeywordService.getTenPopularKeywords()).willThrow(new SearchApplicationException(ErrorCode.POPULAR_KEYWORD_NOT_FOUND));
+        given(popularKeywordService.getTenPopularKeywords())
+                .willThrow(new SearchApplicationException(ErrorCode.POPULAR_KEYWORD_NOT_FOUND));
 
         // When & Then
         mvc.perform(get("/popular-keywords")
