@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("인기키워드 서비스 테스트")
+@DisplayName("인기키워드 Service Test")
 @ExtendWith(MockitoExtension.class)
 class BlogPopularKeywordServiceTest {
 

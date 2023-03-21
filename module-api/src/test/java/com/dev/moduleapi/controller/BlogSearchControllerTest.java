@@ -24,15 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@DisplayName("블로그검색 컨트롤러 테스트")
+@DisplayName("블로그검색 Controller Test")
 @WebMvcTest(BlogSearchController.class)
 class BlogSearchControllerTest {
     @Autowired
     private MockMvc mvc;
     @MockBean
     private BlogSearchApiService blogService;
-    @MockBean
-    private PopularKeywordEventService popularKeywordEventService;
     @Autowired
     private ObjectMapper objectMapper;
 

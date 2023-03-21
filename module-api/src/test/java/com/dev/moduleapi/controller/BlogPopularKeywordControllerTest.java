@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("인기키워드 컨트롤러 테스트")
+@DisplayName("인기키워드 Controller Test")
 @WebMvcTest(BlogPopularKeywordController.class)
 class BlogPopularKeywordControllerTest {
     @Autowired
