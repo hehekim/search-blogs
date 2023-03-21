@@ -24,13 +24,13 @@ public class BlogSearchApiService {
         popularKeywordEventService.saveBlogPopularKeyword(request.getQuery());
 
         try{
-            return searchBlogByKeyword(SearchClientType.KAKAO_BLOG_SEARCH, request);
+            return callExternalClientBlogByKeyword(SearchClientType.KAKAO_BLOG_SEARCH, request);
         } catch (Exception e) {
-            return searchBlogByKeyword(SearchClientType.NAVER_BLOG_SEARCH, request);
+            return callExternalClientBlogByKeyword(SearchClientType.NAVER_BLOG_SEARCH, request);
         }
     }
 
-    private BlogSearchResponse searchBlogByKeyword(SearchClientType type, BlogSearchRequest request) {
+    public BlogSearchResponse callExternalClientBlogByKeyword(SearchClientType type, BlogSearchRequest request) {
         SearchClient<BlogRequest, BlogResponse> searchClient = clientFactory.getImplementationByType(type).getResult();
         ClientResponse<BlogResponse> response = searchClient.call(request);
         ExceptionHandler.checkException(response, ErrorCode.EXTERNAL_REQUEST_FAILED);
