@@ -16,7 +16,7 @@ import java.io.StringWriter;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
     @ExceptionHandler(SearchApplicationException.class)
-    public ResponseEntity<?> handleBlogApplicationException(SearchApplicationException e) {
+    private ResponseEntity<?> handleBlogApplicationException(SearchApplicationException e) {
         log.error("{}, errorCode = {}", e.getMessage(), e.getErrorCode());
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().name()));
@@ -38,7 +38,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    protected ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    private ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("Exceptions due to missing request data, etc.", e);
         return ResponseEntity.status(ErrorCode.REQUEST_BODY_MISSING_ERROR.getStatus())
                 .body(Response.error(ErrorCode.REQUEST_BODY_MISSING_ERROR.getMessage()));
