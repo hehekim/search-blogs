@@ -1,7 +1,6 @@
 package com.dev.moduledomain.entity;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "blog_popluar_keyword",
+@Table(name = "blog_popular_keyword",
         indexes = {
                 @Index(name = "idx_keyword", columnList = "keyword"),
         }
