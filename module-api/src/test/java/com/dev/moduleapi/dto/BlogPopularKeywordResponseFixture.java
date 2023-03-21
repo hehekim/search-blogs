@@ -1,6 +1,6 @@
 package com.dev.moduleapi.dto;
 
-import com.dev.moduleapi.dto.response.BlogPopularKeywordResponse;
+import com.dev.moduledomain.dto.resopnse.BlogPopularKeywordResponse;
 
 import java.util.List;
 

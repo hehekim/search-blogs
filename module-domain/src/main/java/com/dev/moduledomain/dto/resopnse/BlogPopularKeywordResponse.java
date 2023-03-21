@@ -1,4 +1,4 @@
-package com.dev.moduleapi.dto.response;
+package com.dev.moduledomain.dto.resopnse;
 
 import com.dev.moduledomain.entity.BlogPopularKeyword;
 import lombok.AllArgsConstructor;
