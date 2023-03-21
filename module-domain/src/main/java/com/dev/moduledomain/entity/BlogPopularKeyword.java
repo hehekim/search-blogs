@@ -1,6 +1,7 @@
 package com.dev.moduledomain.entity;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,11 @@ public class BlogPopularKeyword extends BaseEntity {
     public BlogPopularKeyword(String keyword) {
         this.keyword = keyword;
         this.searchCount = 0L;
+    }
+
+    public BlogPopularKeyword(String keyword, Long searchCount) {
+        this.keyword = keyword;
+        this.searchCount = searchCount;
     }
 
     public static BlogPopularKeyword from(String keyword) {
