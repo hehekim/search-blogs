@@ -20,8 +20,9 @@ public class BlogSearchService {
     private final SearchClientFactory clientFactory;
 
     public BlogSearchResponse searchBlogsByKeyword(BlogSearchRequest request) {
+        publisher.publishEvent(BlogPopularKeywordEvent.from(request.getQuery()));
+
         try{
-            publisher.publishEvent(BlogPopularKeywordEvent.from(request.getQuery()));
             return searchByKeyword(SearchClientType.KAKAO_BLOG_SEARCH, request);
         } catch (Exception e) {
             return searchByKeyword(SearchClientType.NAVER_BLOG_SEARCH, request);
