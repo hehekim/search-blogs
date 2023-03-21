@@ -1,6 +1,6 @@
 package com.dev.moduleapi.controller;
 
-import com.dev.moduleapi.dto.BlogPopularKeywordResponseFixture;
+import com.dev.moduleapi.fixture.BlogPopularKeywordResponseFixture;
 import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduleapi.service.BlogPopularKeywordApiService;

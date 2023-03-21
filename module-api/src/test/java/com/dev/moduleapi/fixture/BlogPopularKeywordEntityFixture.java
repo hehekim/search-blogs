@@ -1,8 +1,7 @@
-package com.dev.moduleapi.dto;
+package com.dev.moduleapi.fixture;
 
 import com.dev.moduledomain.dto.resopnse.BlogPopularKeywordResponse;
 import com.dev.moduledomain.dto.resopnse.DomainResponse;
-import com.dev.moduledomain.entity.BlogPopularKeyword;
 
 import java.util.List;
 

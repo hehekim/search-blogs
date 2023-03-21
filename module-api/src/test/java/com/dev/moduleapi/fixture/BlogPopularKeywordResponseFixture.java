@@ -1,4 +1,4 @@
-package com.dev.moduleapi.dto;
+package com.dev.moduleapi.fixture;
 
 import com.dev.moduledomain.dto.resopnse.BlogPopularKeywordResponse;
 

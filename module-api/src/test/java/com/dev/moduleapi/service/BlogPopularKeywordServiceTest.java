@@ -1,11 +1,8 @@
 package com.dev.moduleapi.service;
 
-import com.dev.moduleapi.dto.BlogPopularKeywordEntityFixture;
-import com.dev.moduleapi.exception.ExceptionHandler;
-import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleapi.exception.ErrorCode;
-import com.dev.moduledomain.dto.resopnse.BlogPopularKeywordResponse;
-import com.dev.moduledomain.dto.resopnse.DomainResponse;
+import com.dev.moduleapi.exception.SearchApplicationException;
+import com.dev.moduleapi.fixture.BlogPopularKeywordEntityFixture;
 import com.dev.moduledomain.service.PopularKeywordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,13 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @DisplayName("인기키워드 서비스 테스트")
