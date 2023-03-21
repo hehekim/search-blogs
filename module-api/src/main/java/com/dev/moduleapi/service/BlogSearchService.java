@@ -32,9 +32,13 @@ public class BlogSearchService {
     private BlogSearchResponse searchByKeyword(SearchClientType type, BlogSearchRequest request) {
         BlogResponse response = clientFactory.getImplementationByType(type).call(request);
         BlogSearchResponse result = BlogSearchResponse.of(type, request, response);
+        isExistsBlogSearchResponse(result);
+        return result;
+    }
+
+    private void isExistsBlogSearchResponse(BlogSearchResponse result) {
         if (Objects.isNull(result)) {
             throw new SearchApplicationException(ErrorCode.SEARCH_TYPE_NOT_FOUND);
         }
-        return result;
     }
 }
