@@ -44,6 +44,7 @@ public class NaverBlogSearchClient implements SearchClient<BlogRequest, BlogResp
     @Override
     public ClientResponse<BlogResponse> call(BlogRequest request) {
         try {
+            log.info("Request to Naver client. request data = {}", request.toString());
             return ClientResponse.success(
                     restTemplate.exchange(
                             createURI(request),
@@ -74,10 +75,20 @@ public class NaverBlogSearchClient implements SearchClient<BlogRequest, BlogResp
         return UriComponentsBuilder.fromHttpUrl(naverBlogUrl)
                 .queryParam(QUERY, request.getQuery())
                 .queryParam(SORT, request.getSort().getNaverSort())
-                .queryParam(PAGE, request.getPage())
-                .queryParam(SIZE, request.getSize())
+                .queryParam(PAGE, setRequestPage(request.getPage()))
+                .queryParam(SIZE, setRequestSize(request.getSize()))
                 .build()
                 .encode()
                 .toUri();
+    }
+
+    @Override
+    public Integer setRequestPage(Integer page) {
+        return page > 1000 ? 1000 : page;
+    }
+
+    @Override
+    public Integer setRequestSize(Integer size) {
+        return size > 100 ? 100 : size;
     }
 }

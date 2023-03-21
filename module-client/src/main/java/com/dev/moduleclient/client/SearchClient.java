@@ -12,4 +12,6 @@ public interface SearchClient<T extends BlogRequest, M extends BlogResponse> {
      ClientResponse<M> call(T request);
      HttpEntity<String> setHttpEntity();
      URI createURI(T request);
+     Integer setRequestPage(Integer page);
+     Integer setRequestSize(Integer size);
 }

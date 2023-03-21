@@ -70,10 +70,20 @@ public class KakaoBlogSearchClient implements SearchClient<BlogRequest, BlogResp
         return UriComponentsBuilder.fromHttpUrl(kakaoBlogUrl)
                 .queryParam(QUERY, request.getQuery())
                 .queryParam(SORT, request.getSort().getKakaoSort())
-                .queryParam(PAGE, request.getPage())
-                .queryParam(SIZE, request.getSize())
+                .queryParam(PAGE, setRequestPage(request.getPage()))
+                .queryParam(SIZE, setRequestSize(request.getSize()))
                 .build()
                 .encode()
                 .toUri();
+    }
+
+    @Override
+    public Integer setRequestPage(Integer page) {
+        return page > 50 ? 50 : page;
+    }
+
+    @Override
+    public Integer setRequestSize(Integer size) {
+        return size > 50 ? 50 : size ;
     }
 }
