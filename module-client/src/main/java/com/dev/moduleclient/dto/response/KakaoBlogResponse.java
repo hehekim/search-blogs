@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Setter
 @Builder
 public class KakaoBlogResponse extends BlogResponse {
-    List<KaKaoDocument> documents = new ArrayList<>();
+    List<KaKaoDocument> documents;
     KaKaoMeta meta;
 
     public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
