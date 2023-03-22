@@ -71,7 +71,7 @@ public class NaverBlogResponse extends BlogResponse {
         public static BlogSearchResponse.BlogSearch toBlogSearch(NaverBlogResponse.NaverItem response) {
             return BlogSearchResponse.BlogSearch.builder()
                     .title(response.getTitle())
-                    .content(response.getDescription())
+                    .contents(response.getDescription())
                     .postUrl(response.getLink())
                     .blogName(response.getBloggername())
                     .postDate(LocalDate.parse(response.getPostdate(), DateTimeFormatter.ofPattern("yyyyMMdd")))

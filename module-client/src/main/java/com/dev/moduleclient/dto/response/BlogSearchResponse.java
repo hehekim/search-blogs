@@ -21,7 +21,7 @@ public class BlogSearchResponse {
     @Builder
     public static class BlogSearch {
         private String title;
-        private String content;
+        private String contents;
         private String postUrl;
         private String blogName;
         private LocalDate postDate;

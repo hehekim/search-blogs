@@ -63,7 +63,7 @@ public class KakaoBlogResponse extends BlogResponse {
         public static BlogSearchResponse.BlogSearch toKakaoDocument(KaKaoDocument response) {
             return BlogSearchResponse.BlogSearch.builder()
                     .title(response.getTitle())
-                    .content(response.getContents())
+                    .contents(response.getContents())
                     .postUrl(response.getUrl())
                     .blogName(response.getBlogname())
                     .postDate(LocalDate.parse(response.getDatetime().substring(0, 10)))

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public class Response<T> {
     private String resultCode;
-    private T result;
+    private T results;
 
     public static <T> Response<T> success(T result) {
         return new Response<>(HttpStatus.OK.name(), result);

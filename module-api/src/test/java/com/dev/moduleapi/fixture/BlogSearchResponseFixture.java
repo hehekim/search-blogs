@@ -11,7 +11,7 @@ public class BlogSearchResponseFixture {
         return BlogSearchResponse.builder()
                 .blogs(List.of(BlogSearchResponse.BlogSearch.builder()
                                 .title("블로그 제목")
-                                .content("블로그 내용")
+                                .contents("블로그 내용")
                                 .postUrl("https://www.kakaocorp.com/")
                                 .blogName("블로그 이름")
                                 .postDate(LocalDate.now())
