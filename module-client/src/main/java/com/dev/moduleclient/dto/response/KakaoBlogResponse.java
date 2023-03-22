@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class KakaoBlogResponse extends BlogResponse {
     List<KaKaoDocument> documents;
     KaKaoMeta meta;
@@ -36,6 +37,8 @@ public class KakaoBlogResponse extends BlogResponse {
     @Getter
     @Setter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class KaKaoDocument {
         @JsonProperty("title")
         private String title;       // 블로그 글 제목
@@ -64,6 +67,8 @@ public class KakaoBlogResponse extends BlogResponse {
     @Getter
     @Setter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class KaKaoMeta {
         @JsonProperty("is_end")
         private Boolean isEnd;          // 현재 페이지가 마지막 페이지인지 여부

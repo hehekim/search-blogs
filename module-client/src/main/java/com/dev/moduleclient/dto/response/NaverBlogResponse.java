@@ -2,8 +2,7 @@ package com.dev.moduleclient.dto.response;
 
 import com.dev.moduleclient.dto.request.BlogRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +11,9 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NaverBlogResponse extends BlogResponse {
     @JsonProperty("lastBuildDate")
     private String lastBuildDate;   // 검색 결과를 생성한 시간
@@ -42,6 +44,9 @@ public class NaverBlogResponse extends BlogResponse {
 
     @Getter
     @Setter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class NaverItem {
         @JsonProperty("title")
         private String title;       // 블로그 포스트의 제목
