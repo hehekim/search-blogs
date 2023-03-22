@@ -15,7 +15,8 @@ import javax.persistence.*;
                 @Index(name = "idx_search_count", columnList = "searchCount")
         }
 )
-public class BlogPopularKeyword extends BaseEntity {
+//public class BlogPopularKeyword extends BaseEntity {
+public class BlogPopularKeyword {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -11,9 +11,9 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@Getter
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+//@Getter
+//@MappedSuperclass
+//@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate

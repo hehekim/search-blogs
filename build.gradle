@@ -1,29 +1,44 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '2.7.9'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-}
-
-group = 'com.dev'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+buildscript {
+    ext {
+        springBootVersion = '2.7.9'
+        gradleVersion = '1.0.15.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:${gradleVersion}"
+    }
 }
 
 subprojects {
-    apply plugin: 'java-library'
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'modules.be'
+    version = '0.0.1-SNAPSHOT'
+
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+    compileJava.options.encoding = 'UTF-8'
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
-bootJar { enabled = false }
-jar { enabled = true }
+project(":module-api"){
+    jar {
+        archivesBaseName = 'kakaobank-module-api'
+
+    }
+    version '1.0.0-SNAPSHOT'
+}
