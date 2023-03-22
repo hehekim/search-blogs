@@ -24,8 +24,7 @@ public class BlogSearchApiService {
         popularKeywordEventService.saveBlogPopularKeyword(request.getQuery());
 
         try{
-            throw new Exception();
-//            return callExternalClientBlogByKeyword(SearchClientType.KAKAO_BLOG_SEARCH, request);
+            return callExternalClientBlogByKeyword(SearchClientType.KAKAO_BLOG_SEARCH, request);
         } catch (Exception e) {
             return callExternalClientBlogByKeyword(SearchClientType.NAVER_BLOG_SEARCH, request);
         }
