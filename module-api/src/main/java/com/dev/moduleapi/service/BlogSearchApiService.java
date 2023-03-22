@@ -31,9 +31,13 @@ public class BlogSearchApiService {
     }
 
     public BlogSearchResponse callExternalClientBlogByKeyword(SearchClientType type, BlogSearchRequest request) {
-        SearchClient<BlogRequest, BlogResponse> searchClient = clientFactory.getImplementationByType(type).getResult();
+        ClientResponse<SearchClient<BlogRequest, BlogResponse>> searchClientType = clientFactory.getImplementationByType(type);
+        ExceptionHandler.checkException(searchClientType, ErrorCode.SEARCH_TYPE_NOT_FOUND);
+
+        SearchClient<BlogRequest, BlogResponse> searchClient = searchClientType.getResult();
         ClientResponse<BlogResponse> response = searchClient.call(request);
         ExceptionHandler.checkException(response, ErrorCode.EXTERNAL_REQUEST_FAILED);
+
         return BlogSearchResponse.of(type, request, response.getResult());
     }
 }
