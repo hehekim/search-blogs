@@ -6,7 +6,6 @@ import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleapi.fixture.BlogSearchResponseFixture;
 import com.dev.moduleapi.service.BlogSearchApiService;
 import com.dev.moduleclient.dto.request.BlogSearchSort;
-import com.dev.moduledomain.service.PopularKeywordEventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,22 +58,21 @@ class BlogSearchControllerTest {
 
     @DisplayName("[POST] 키워드 기준으로 블로그 검색 - 에러발생")
     @Test
-    void searchBlogByKeywordReturnError() throws Exception {
+    void searchBlogByKeywordReturnInternalServerError() throws Exception {
         // Given
+        BlogSearchRequest request = BlogSearchRequest.builder()
+                .query("사과")
+                .sort(BlogSearchSort.ACCURACY)
+                .page(1)
+                .size(10)
+                .build();
         given(blogService.searchBlogsByKeyword(any(BlogSearchRequest.class)))
                 .willThrow(new SearchApplicationException(ErrorCode.EXTERNAL_REQUEST_FAILED));
 
         // When & Then
         mvc.perform(post("/blogs")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(
-                                BlogSearchRequest.builder()
-                                        .query("사과")
-                                        .sort(BlogSearchSort.ACCURACY)
-                                        .page(1)
-                                        .size(10)
-                                        .build()
-                        ))
+                        .content(objectMapper.writeValueAsString(request))
                 ).andDo(print())
                 .andExpect(status().isInternalServerError());
         then(blogService).should().searchBlogsByKeyword(any(BlogSearchRequest.class));

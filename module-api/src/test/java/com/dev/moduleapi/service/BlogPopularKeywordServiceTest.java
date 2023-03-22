@@ -1,6 +1,5 @@
 package com.dev.moduleapi.service;
 
-import com.dev.moduleapi.exception.ErrorCode;
 import com.dev.moduleapi.exception.SearchApplicationException;
 import com.dev.moduleapi.fixture.BlogPopularKeywordEntityFixture;
 import com.dev.moduledomain.service.PopularKeywordService;
@@ -11,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -21,7 +22,6 @@ class BlogPopularKeywordServiceTest {
 
     @InjectMocks
     BlogPopularKeywordApiService blogPopularKeywordApiService;
-
     @Mock
     PopularKeywordService popularKeywordService;
 
@@ -31,9 +31,13 @@ class BlogPopularKeywordServiceTest {
         // Given
         given(popularKeywordService.getTenPopularKeywords())
                 .willReturn((BlogPopularKeywordEntityFixture.createTop10Keywords()));
-        // When & Then
-        assertDoesNotThrow(() -> blogPopularKeywordApiService.getTenPopularKeywords());
+
+        // When
+        blogPopularKeywordApiService.getTenPopularKeywords();
+
+        // Then
         then(popularKeywordService).should().getTenPopularKeywords();
+        assertDoesNotThrow(() -> blogPopularKeywordApiService.getTenPopularKeywords());
     }
 
     @Test
@@ -42,10 +46,13 @@ class BlogPopularKeywordServiceTest {
          // Given
         given(popularKeywordService.getTenPopularKeywords()).willReturn(null);
 
-        // When & Then
-        SearchApplicationException exception =
-                assertThrows(SearchApplicationException.class, () -> blogPopularKeywordApiService.getTenPopularKeywords());
-        assertEquals(ErrorCode.POPULAR_KEYWORD_NOT_FOUND, exception.getErrorCode());
+        // When
+        Throwable t = catchThrowable(() -> blogPopularKeywordApiService.getTenPopularKeywords());
+
+        // Then
+        assertThat(t)
+                .isInstanceOf(SearchApplicationException.class)
+                .hasMessage("존재하지 않는 인기키워드 요청 에러");
         then(popularKeywordService).should().getTenPopularKeywords();
     }
 }
