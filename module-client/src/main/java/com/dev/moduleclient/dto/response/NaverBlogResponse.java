@@ -29,10 +29,10 @@ public class NaverBlogResponse extends BlogResponse {
 
     public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
         NaverBlogResponse response = (NaverBlogResponse) data;
-        int page = PageInfo.getCurrentPage(NAVER_MAX_PAGE, response.getStart());
         int size = PageInfo.getCurrentSize(NAVER_MAX_SIZE, request.getSize());
-        int totalPage = PageInfo.getTotalPage(NAVER_MAX_PAGE, response.getTotal(), request.getSize());
         int totalCount = PageInfo.getTotalSize(NAVER_MAX_PAGE, NAVER_MAX_SIZE, response.getTotal());
+        int totalPage = PageInfo.getTotalPage(NAVER_MAX_PAGE, totalCount, size);
+        int page = PageInfo.getCurrentPage(request.getPage(), totalPage);
 
         return BlogSearchResponse.builder()
                 .blogs(response.getItems()

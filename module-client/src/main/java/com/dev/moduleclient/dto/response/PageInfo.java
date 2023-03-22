@@ -14,9 +14,9 @@ public class PageInfo {
     private int totalPage;      // 전체 페이지
     private String sort;        // 정렬 방법
 
-    public static int getTotalPage(Integer fixSize, Integer totalSize, Integer size) {
-        int totalPage = ((totalSize - 1) / size) + 1;
-        return totalPage > fixSize ? fixSize : totalPage;
+    public static int getTotalPage(Integer maxPage, Integer totalSize, Integer size) {
+        int totalPage = (int) Math.ceil((double) totalSize / size);
+        return totalPage < maxPage ? totalPage : maxPage;
     }
 
     public static int getTotalSize(Integer maxPage, Integer maxSize, Integer totalSize) {
@@ -24,8 +24,8 @@ public class PageInfo {
         return totalSize > totalCount ? totalCount : totalSize;
     }
 
-    public static int getCurrentPage(Integer fixSize, Integer page) {
-        return page > fixSize ? fixSize : page;
+    public static int getCurrentPage(Integer page, Integer totalPage) {
+        return page > totalPage ? totalPage : page;
     }
 
     public static int getCurrentSize(Integer fixSize, Integer size) {

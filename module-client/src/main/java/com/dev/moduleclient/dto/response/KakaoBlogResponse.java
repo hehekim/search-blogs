@@ -21,10 +21,10 @@ public class KakaoBlogResponse extends BlogResponse {
 
     public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
         KakaoBlogResponse response = (KakaoBlogResponse) data;
-        int page = PageInfo.getCurrentPage(KAKAO_MAX_PAGE, request.getPage());
         int size = PageInfo.getCurrentSize(KAKAO_MAX_SIZE, request.getSize());
-        int totalPage = PageInfo.getTotalPage(KAKAO_MAX_PAGE, response.getMeta().getPageableCount(), request.getSize());
         int totalSize = PageInfo.getTotalSize(KAKAO_MAX_PAGE, KAKAO_MAX_SIZE, response.getMeta().getPageableCount());
+        int totalPage = PageInfo.getTotalPage(KAKAO_MAX_PAGE, totalSize, size);
+        int page = PageInfo.getCurrentPage(request.getPage(), totalPage);
 
         return BlogSearchResponse.builder()
                 .blogs(response.getDocuments()
