@@ -14,21 +14,28 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class KakaoBlogResponse extends BlogResponse {
+    private static final int KAKAO_MAX_PAGE = 50;
+    private static final int KAKAO_MAX_SIZE = 50;
     List<KaKaoDocument> documents;
     KaKaoMeta meta;
 
     public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
         KakaoBlogResponse response = (KakaoBlogResponse) data;
+        int page = PageInfo.getCurrentPage(KAKAO_MAX_PAGE, request.getPage());
+        int size = PageInfo.getCurrentSize(KAKAO_MAX_SIZE, request.getSize());
+        int totalPage = PageInfo.getTotalPage(KAKAO_MAX_PAGE, response.getMeta().getPageableCount(), request.getSize());
+        int totalSize = PageInfo.getTotalSize(KAKAO_MAX_PAGE, KAKAO_MAX_SIZE, response.getMeta().getPageableCount());
+
         return BlogSearchResponse.builder()
                 .blogs(response.getDocuments()
                         .stream()
                         .map(KaKaoDocument::toKakaoDocument)
                         .collect(Collectors.toList()))
                 .page(PageInfo.builder()
-                        .page(request.getPage())
-                        .totalPage(PageInfo.getTotalPage(response.getMeta().getPageableCount(), request.getSize()))
-                        .totalCount(response.getMeta().getPageableCount())
-                        .size(request.getSize())
+                        .page(page)
+                        .size(size)
+                        .totalPage(totalPage)
+                        .totalCount(totalSize)
                         .sort(request.getSort().name())
                         .build())
                 .build();

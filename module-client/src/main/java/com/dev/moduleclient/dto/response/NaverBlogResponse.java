@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NaverBlogResponse extends BlogResponse {
+    private static final Integer NAVER_MAX_PAGE = 1000;
+    private static final Integer NAVER_MAX_SIZE = 100;
     @JsonProperty("lastBuildDate")
     private String lastBuildDate;   // 검색 결과를 생성한 시간
     @JsonProperty("total")
@@ -27,16 +29,21 @@ public class NaverBlogResponse extends BlogResponse {
 
     public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
         NaverBlogResponse response = (NaverBlogResponse) data;
+        int page = PageInfo.getCurrentPage(NAVER_MAX_PAGE, response.getStart());
+        int size = PageInfo.getCurrentSize(NAVER_MAX_SIZE, request.getSize());
+        int totalPage = PageInfo.getTotalPage(NAVER_MAX_PAGE, response.getTotal(), request.getSize());
+        int totalCount = PageInfo.getTotalSize(NAVER_MAX_PAGE, NAVER_MAX_SIZE, response.getTotal());
+
         return BlogSearchResponse.builder()
                 .blogs(response.getItems()
                         .stream()
                         .map(NaverBlogResponse.NaverItem::toBlogSearch)
                         .collect(Collectors.toList()))
                 .page(PageInfo.builder()
-                        .page(response.getStart())
-                        .totalPage(PageInfo.getTotalPage(response.getTotal(), request.getSize()))
-                        .totalCount(response.getTotal())
-                        .size(request.getSize())
+                        .page(page)
+                        .size(size)
+                        .totalPage(totalPage)
+                        .totalCount(totalCount)
                         .sort(request.getSort().name())
                         .build())
                 .build();
