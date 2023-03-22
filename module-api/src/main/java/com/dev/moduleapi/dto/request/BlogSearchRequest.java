@@ -10,6 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Builder
+@ToString
 public class BlogSearchRequest extends BlogRequest {
     @NotBlank(message = "필수값 query 값이 없습니다.")
     private String query;           // 검색을 원하는 질의어
