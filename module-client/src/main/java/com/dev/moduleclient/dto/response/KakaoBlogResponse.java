@@ -11,8 +11,9 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@Builder
 public class KakaoBlogResponse extends BlogResponse {
-    List<KaKaoDocuments> documents = new ArrayList<>();
+    List<KaKaoDocument> documents = new ArrayList<>();
     KaKaoMeta meta;
 
     public static BlogSearchResponse toBlogSearchResponse(BlogRequest request, BlogResponse data) {
@@ -20,7 +21,7 @@ public class KakaoBlogResponse extends BlogResponse {
         return BlogSearchResponse.builder()
                 .blogs(response.getDocuments()
                         .stream()
-                        .map(KaKaoDocuments::toKakaoDocument)
+                        .map(KaKaoDocument::toKakaoDocument)
                         .collect(Collectors.toList()))
                 .page(PageInfo.builder()
                         .page(request.getPage())
@@ -34,7 +35,8 @@ public class KakaoBlogResponse extends BlogResponse {
 
     @Getter
     @Setter
-    public static class KaKaoDocuments {
+    @Builder
+    public static class KaKaoDocument {
         @JsonProperty("title")
         private String title;       // 블로그 글 제목
         @JsonProperty("contents")
@@ -48,7 +50,7 @@ public class KakaoBlogResponse extends BlogResponse {
         @JsonProperty("datetime")
         private String datetime;    // 블로그 글 작성시간, ISO 8601
 
-        public static BlogSearchResponse.BlogSearch toKakaoDocument(KakaoBlogResponse.KaKaoDocuments response) {
+        public static BlogSearchResponse.BlogSearch toKakaoDocument(KaKaoDocument response) {
             return BlogSearchResponse.BlogSearch.builder()
                     .title(response.getTitle())
                     .content(response.getContents())
@@ -61,6 +63,7 @@ public class KakaoBlogResponse extends BlogResponse {
 
     @Getter
     @Setter
+    @Builder
     public static class KaKaoMeta {
         @JsonProperty("is_end")
         private Boolean isEnd;          // 현재 페이지가 마지막 페이지인지 여부
